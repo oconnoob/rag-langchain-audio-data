@@ -6,11 +6,18 @@ from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import Chroma
 
+
 load_dotenv()
 
-def create_docs(URLs):
+URLs = [
+    "https://storage.googleapis.com/aai-web-samples/langchain_agents_webinar.opus",
+    "https://storage.googleapis.com/aai-web-samples/langchain_document_qna_webinar.opus",
+    "https://storage.googleapis.com/aai-web-samples/langchain_retrieval_webinar.opus"
+]
+
+def create_docs(urls_list):
     return [
-        AssemblyAIAudioTranscriptLoader(file_path=url).load()[0] for url in URLs
+        AssemblyAIAudioTranscriptLoader(file_path=url).load()[0] for url in urls_list
     ]
 
 def make_embedder():
@@ -31,13 +38,6 @@ def make_qa_chain():
         return_source_documents=True
     )
 
-
-URLs = [
-    "https://storage.googleapis.com/aai-web-samples/langchain_agents_webinar.opus",
-    "https://storage.googleapis.com/aai-web-samples/langchain_document_qna_webinar.opus",
-    "https://storage.googleapis.com/aai-web-samples/langchain_low_no_code_webinar.opus",
-    "https://storage.googleapis.com/aai-web-samples/langchain_retrieval_webinar.opus"
-]
 
 print('Transcribing files ... (may take several minutes)')
 docs = create_docs(URLs)
