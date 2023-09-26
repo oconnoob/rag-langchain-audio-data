@@ -50,7 +50,7 @@ texts = text_splitter.split_documents(docs)
 
 # modify metadata because some AssemblyAI returned metadata is not in a compatible form for the Chroma db
 for text in texts:
-    text.metadata = dict(audio_url=text.metadata['audio_url'])
+    text.metadata = {"audio_url": text.metadata["audio_url"]}
 
 # Make vector DB from split texts
 print('Embedding texts...')
@@ -58,9 +58,12 @@ hf = make_embedder()
 db = Chroma.from_documents(texts, hf)
 
 # Create the chain and start the program
+print('\nEnter `e` to exit')
 qa_chain = make_qa_chain()
 while True:
     q = input('enter your question: ')
+    if q == 'e':
+        break
     result = qa_chain({"query": q})
     print(f"Q: {result['query'].strip()}")
     print(f"A: {result['result'].strip()}\n")
