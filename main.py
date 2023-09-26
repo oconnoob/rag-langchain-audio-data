@@ -16,9 +16,11 @@ URLs = [
 ]
 
 def create_docs(urls_list):
-    return [
-        AssemblyAIAudioTranscriptLoader(file_path=url).load()[0] for url in urls_list
-    ]
+    l = []
+    for url in urls_list:
+        print(f'Transcribing {url}')
+        l.append(AssemblyAIAudioTranscriptLoader(file_path=url).load()[0])
+    return l
 
 def make_embedder():
     model_name = "sentence-transformers/all-mpnet-base-v2"
